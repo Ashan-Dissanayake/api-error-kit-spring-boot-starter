@@ -26,4 +26,11 @@ class TestController {
             super(message);
         }
     }
+
+    @GetMapping("/error")
+    String getError() {
+        throw new RuntimeException(
+                "Sensitive internal database information"
+        );
+    }
 }

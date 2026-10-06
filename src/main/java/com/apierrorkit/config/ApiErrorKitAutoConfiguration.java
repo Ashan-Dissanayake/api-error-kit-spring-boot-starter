@@ -31,11 +31,13 @@ public class ApiErrorKitAutoConfiguration {
     @ConditionalOnMissingBean(ProblemExceptionHandler.class)
     ProblemExceptionHandler problemExceptionHandler(
             ExceptionResolver exceptionResolver,
-            ProblemDetailFactory problemDetailFactory) {
+            ProblemDetailFactory problemDetailFactory,
+            ApiErrorKitProperties properties) {
 
         return new ProblemExceptionHandler(
                 exceptionResolver,
-                problemDetailFactory
+                problemDetailFactory,
+                properties
         );
     }
 }

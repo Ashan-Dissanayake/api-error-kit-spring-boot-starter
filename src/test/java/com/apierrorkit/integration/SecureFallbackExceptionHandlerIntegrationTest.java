@@ -1,5 +1,6 @@
 package com.apierrorkit.integration;
 
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,37 +15,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(
         classes = ProblemExceptionHandlerIntegrationTest.TestConfig.class,
-        properties = "api-error-kit.include-exception-message=true"
+        properties = "api-error-kit.include-exception-message=false"
 )
 @AutoConfigureMockMvc
-class ProblemExceptionHandlerIntegrationTest {
+public class SecureFallbackExceptionHandlerIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
 
-    @Test
-    void shouldReturnRfc9457ProblemDetail() throws Exception {
+        @Test
+    void shouldNotExposeMessageForUnhandledException() throws Exception {
 
-        mockMvc.perform(get("/users/123"))
-                .andExpect(status().isNotFound())
+        mockMvc.perform(get("/error"))
+                .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType(
                         "application/problem+json"
                 ))
-                .andExpect(jsonPath("$.type")
-                        .value(
-                                "https://example.com/problems/user-not-found"
-                        ))
                 .andExpect(jsonPath("$.title")
-                        .value("User Not Found"))
-                .andExpect(jsonPath("$.status")
-                        .value(404))
+                        .value("Internal Server Error"))
                 .andExpect(jsonPath("$.detail")
-                        .value("User 123 was not found"))
+                        .value("An unexpected error occurred"))
                 .andExpect(jsonPath("$.instance")
-                        .value("/users/123"));
+                        .value("/error"));
     }
-
-
 
     @Configuration
     @EnableAutoConfiguration

@@ -16,13 +16,16 @@ public class ProblemExceptionHandler {
 
     private final ExceptionResolver exceptionResolver;
     private final ProblemDetailFactory problemDetailFactory;
+    private final ApiErrorKitProperties properties;;
 
     public ProblemExceptionHandler(
             ExceptionResolver exceptionResolver,
-            ProblemDetailFactory problemDetailFactory) {
+            ProblemDetailFactory problemDetailFactory,
+            ApiErrorKitProperties properties) {
 
         this.exceptionResolver = exceptionResolver;
         this.problemDetailFactory = problemDetailFactory;
+        this.properties = properties;
     }
 
     @ExceptionHandler(Exception.class)
@@ -44,7 +47,14 @@ public class ProblemExceptionHandler {
                             );
 
                     problem.setTitle("Internal Server Error");
-                    problem.setDetail(exception.getMessage());
+
+                    if (properties.isIncludeExceptionMessage()) {
+                        problem.setDetail(exception.getMessage());
+                    } else {
+                        problem.setDetail(
+                                "An unexpected error occurred"
+                        );
+                    }
 
                     return problem;
                 });
