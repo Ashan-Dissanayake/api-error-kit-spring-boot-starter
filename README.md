@@ -1,6 +1,6 @@
 # ApiErrorKit
 
-**A lightweight Spring Boot library for converting custom exceptions into standardized RFC 9457 API error responses.**
+A lightweight Spring Boot library for converting custom exceptions into standardized RFC 9457 API error responses.
 
 [![Java](https://img.shields.io/badge/Java-17+-orange)](#)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.x-brightgreen)](#)
