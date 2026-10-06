@@ -56,7 +56,11 @@ class ValidationExceptionHandlerIntegrationTest {
                 .andExpect(jsonPath("$.errors")
                         .isArray())
                 .andExpect(jsonPath("$.errors.length()")
-                        .value(2));
+                        .value(2))
+                .andExpect(jsonPath("$.errors[?(@.field == 'name')]")
+                        .exists())
+                .andExpect(jsonPath("$.errors[?(@.field == 'email')]")
+                        .exists());
     }
 
     @Configuration

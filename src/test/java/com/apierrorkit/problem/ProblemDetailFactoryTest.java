@@ -68,4 +68,90 @@ class ProblemDetailFactoryTest {
         assertThat(problem.getDetail())
                 .isEqualTo("An unexpected error occurred");
     }
+
+    @Test
+    void shouldHandleNullExceptionMessage() {
+
+        ApiErrorKitProperties properties =
+                new ApiErrorKitProperties();
+
+        properties.setIncludeExceptionMessage(true);
+
+        ProblemDetailFactory factory =
+                new ProblemDetailFactory(properties);
+
+        ResolvedApiError resolvedError =
+                new ResolvedApiError(
+                        404,
+                        "User Not Found",
+                        "https://example.com/problems/user-not-found"
+                );
+
+        RuntimeException exception =
+                new RuntimeException();
+
+        ProblemDetail problem =
+                factory.create(resolvedError, exception);
+
+        assertNull(problem.getDetail());
+    }
+
+    @Test
+    void shouldHandleEmptyExceptionMessage() {
+
+        ApiErrorKitProperties properties =
+                new ApiErrorKitProperties();
+
+        properties.setIncludeExceptionMessage(true);
+
+        ProblemDetailFactory factory =
+                new ProblemDetailFactory(properties);
+
+        ResolvedApiError resolvedError =
+                new ResolvedApiError(
+                        404,
+                        "User Not Found",
+                        "https://example.com/problems/user-not-found"
+                );
+
+        RuntimeException exception =
+                new RuntimeException("");
+
+        ProblemDetail problem =
+                factory.create(resolvedError, exception);
+
+        assertEquals("", problem.getDetail());
+    }
+
+    @Test
+    void shouldHideExceptionMessageWhenDisabled() {
+
+        ApiErrorKitProperties properties =
+                new ApiErrorKitProperties();
+
+        properties.setIncludeExceptionMessage(false);
+
+        ProblemDetailFactory factory =
+                new ProblemDetailFactory(properties);
+
+        ResolvedApiError resolvedError =
+                new ResolvedApiError(
+                        404,
+                        "User Not Found",
+                        "https://example.com/problems/user-not-found"
+                );
+
+        RuntimeException exception =
+                new RuntimeException(
+                        "Sensitive internal database information"
+                );
+
+        ProblemDetail problem =
+                factory.create(resolvedError, exception);
+
+        assertEquals(
+                "An unexpected error occurred",
+                problem.getDetail()
+        );
+    }
 }
