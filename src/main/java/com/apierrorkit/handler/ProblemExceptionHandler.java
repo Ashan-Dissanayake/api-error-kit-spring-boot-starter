@@ -4,8 +4,11 @@ import com.apierrorkit.problem.ProblemDetailFactory;
 import com.apierrorkit.resolver.ExceptionResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Map;
 
 @RestControllerAdvice
 public class ProblemExceptionHandler {
@@ -44,5 +47,29 @@ public class ProblemExceptionHandler {
 
                     return problem;
                 });
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail handleValidationException(
+            MethodArgumentNotValidException exception) {
+
+        ProblemDetail problem =
+                ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+
+        problem.setTitle("Validation Failed");
+        problem.setDetail("Request validation failed");
+
+        var errors = exception.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> Map.of(
+                        "field", error.getField(),
+                        "message", error.getDefaultMessage()
+                ))
+                .toList();
+
+        problem.setProperty("errors", errors);
+
+        return problem;
     }
 }
