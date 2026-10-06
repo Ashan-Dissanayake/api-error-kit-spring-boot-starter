@@ -13,7 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(
-        classes = ProblemExceptionHandlerIntegrationTest.TestConfig.class
+        classes = ProblemExceptionHandlerIntegrationTest.TestConfig.class,
+        properties = "api-error-kit.include-exception-message=true"
 )
 @AutoConfigureMockMvc
 class ProblemExceptionHandlerIntegrationTest {

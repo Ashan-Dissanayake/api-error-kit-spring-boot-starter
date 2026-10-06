@@ -6,9 +6,11 @@ import com.apierrorkit.resolver.AnnotationExceptionResolver;
 import com.apierrorkit.resolver.ExceptionResolver;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 @AutoConfiguration
+@EnableConfigurationProperties(ApiErrorKitProperties.class)
 public class ApiErrorKitAutoConfiguration {
 
     @Bean
@@ -19,8 +21,10 @@ public class ApiErrorKitAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(ProblemDetailFactory.class)
-    ProblemDetailFactory problemDetailFactory() {
-        return new ProblemDetailFactory();
+    ProblemDetailFactory problemDetailFactory(
+            ApiErrorKitProperties properties) {
+
+        return new ProblemDetailFactory(properties);
     }
 
     @Bean

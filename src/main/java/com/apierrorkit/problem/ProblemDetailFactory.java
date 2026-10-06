@@ -1,11 +1,18 @@
 package com.apierrorkit.problem;
 
+import com.apierrorkit.config.ApiErrorKitProperties;
 import com.apierrorkit.resolver.ResolvedApiError;
 import org.springframework.http.ProblemDetail;
 
 import java.net.URI;
 
 public class ProblemDetailFactory {
+
+    private final ApiErrorKitProperties properties;
+
+    public ProblemDetailFactory(ApiErrorKitProperties properties) {
+        this.properties = properties;
+    }
 
     public ProblemDetail create(
             ResolvedApiError resolvedError,
@@ -20,7 +27,11 @@ public class ProblemDetailFactory {
                 URI.create(resolvedError.type())
         );
 
-        problem.setDetail(exception.getMessage());
+        if (properties.isIncludeExceptionMessage()) {
+            problem.setDetail(exception.getMessage());
+        } else {
+            problem.setDetail("An unexpected error occurred");
+        }
 
         return problem;
     }

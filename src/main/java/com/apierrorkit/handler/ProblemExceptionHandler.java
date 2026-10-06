@@ -1,5 +1,6 @@
 package com.apierrorkit.handler;
 
+import com.apierrorkit.config.ApiErrorKitProperties;
 import com.apierrorkit.problem.ProblemDetailFactory;
 import com.apierrorkit.resolver.ExceptionResolver;
 import org.springframework.http.HttpStatus;

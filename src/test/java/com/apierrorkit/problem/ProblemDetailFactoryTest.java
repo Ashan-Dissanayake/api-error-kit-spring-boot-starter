@@ -1,18 +1,28 @@
 package com.apierrorkit.problem;
 
+import com.apierrorkit.config.ApiErrorKitProperties;
 import com.apierrorkit.resolver.ResolvedApiError;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ProblemDetail;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProblemDetailFactoryTest {
 
     private final ProblemDetailFactory factory =
-            new ProblemDetailFactory();
+            new ProblemDetailFactory(new ApiErrorKitProperties());
 
     @Test
     void shouldCreateProblemDetail() {
+
+        ApiErrorKitProperties properties =
+                new ApiErrorKitProperties();
+
+        properties.setIncludeExceptionMessage(true);
+
+        ProblemDetailFactory factory =
+                new ProblemDetailFactory(properties);
 
         ResolvedApiError resolvedError =
                 new ResolvedApiError(
@@ -28,10 +38,7 @@ class ProblemDetailFactoryTest {
                 factory.create(resolvedError, exception);
 
         assertEquals(404, problem.getStatus());
-        assertEquals(
-                "User Not Found",
-                problem.getTitle()
-        );
+        assertEquals("User Not Found", problem.getTitle());
         assertEquals(
                 "https://example.com/problems/user-not-found",
                 problem.getType().toString()
@@ -40,5 +47,25 @@ class ProblemDetailFactoryTest {
                 "User 123 was not found",
                 problem.getDetail()
         );
+    }
+
+    @Test
+    void shouldNotExposeExceptionMessageByDefault() {
+
+        ResolvedApiError resolvedError =
+                new ResolvedApiError(
+                        404,
+                        "User Not Found",
+                        "https://example.com/problems/user-not-found"
+                );
+
+        RuntimeException exception =
+                new RuntimeException("Sensitive internal information");
+
+        ProblemDetail problem =
+                factory.create(resolvedError, exception);
+
+        assertThat(problem.getDetail())
+                .isEqualTo("An unexpected error occurred");
     }
 }
