@@ -13,6 +13,33 @@ Instead of creating a separate `@ExceptionHandler` for every custom exception, d
 
 ---
 
+## Why ApiErrorKit?
+
+In team-based application development, different developers may handle API errors in different ways. Some endpoints may return plain error messages, others may use different response structures, status codes, or exception-handling approaches.
+
+This becomes a practical problem when multiple developers are working on the same backend, especially as the team grows. In a team of 30–40 developers, inconsistent error-handling practices can make debugging, frontend integration, and maintaining API contracts unnecessarily difficult.
+
+ApiErrorKit was created to address this problem by providing a common, reusable approach to API error handling.
+
+Instead of requiring every developer to implement exception handling independently, the library provides a standardized mechanism for converting application exceptions into RFC 9457 `ProblemDetail` responses.
+
+### The Problem
+
+Without a common error-handling standard:
+
+- Different developers may return different error response formats.
+- The same type of exception may be handled differently across endpoints.
+- Frontend developers need to account for inconsistent API error structures.
+- Debugging becomes harder because error information is not standardized.
+- Changes to error-handling logic may need to be repeated across projects or services.
+- Sensitive exception messages may accidentally be exposed to API clients.
+
+### The Goal
+
+ApiErrorKit aims to provide a simple, reusable foundation for consistent API error handling across Spring Boot applications.
+
+The goal is not to replace application-specific exception handling, but to establish a common baseline that teams can extend when necessary.
+
 ## ✨ Features
 
 - Custom exception → RFC 9457 `ProblemDetail`
