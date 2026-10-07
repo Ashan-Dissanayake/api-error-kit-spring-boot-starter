@@ -6,6 +6,7 @@ A lightweight Spring Boot library for converting custom exceptions into standard
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.x-brightgreen)](#)
 [![RFC](https://img.shields.io/badge/RFC-9457-blue)](#)
 [![Tests](https://img.shields.io/badge/tests-12%20passing-success)](#)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.ashan-dissanayake/api-error-kit-spring-boot-starter)](#)
 
 ApiErrorKit provides a simple and extensible way to transform application exceptions into consistent [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) `ProblemDetail` responses.
 
@@ -122,13 +123,13 @@ Add the ApiErrorKit starter dependency to your Spring Boot application:
 
 ```xml
 <dependency>
-    <groupId>com.apierrorkit</groupId>
+    <groupId>io.github.ashan-dissanayake</groupId>
     <artifactId>api-error-kit-spring-boot-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.1</version>
 </dependency>
 ```
 
-> The current project version is `0.0.1-SNAPSHOT`.
+> ApiErrorKit `0.1.1` is published to Maven Central.
 
 ---
 
@@ -404,6 +405,13 @@ Skipped: 0
 
 ---
 
+## 🔗 External Consumption
+
+ApiErrorKit `0.1.1` has been published to Maven Central and successfully verified through a separate Spring Boot consumer project.
+
+The consumer project resolves the library directly from Maven Central and verifies auto-configuration, custom exception handling, validation errors, and RFC 9457 responses.
+
+
 ## 🏛️ Project Structure
 
 ```text
@@ -477,17 +485,19 @@ The project intentionally does **not** require external infrastructure such as:
 - Maven
 - JUnit
 - MockMvc
+- GitHub Actions
+- Maven Central
 
 ---
 
 ## 📌 Project Status
 
-**Current version:** `0.0.1-SNAPSHOT`
+**Current version:** `0.1.1`
 
-The project is currently under active development as a portfolio-focused Spring Boot library.
+ApiErrorKit is published to Maven Central and has been verified through an external Spring Boot consumer project.
 
 ---
 
 ## 📄 License
 
-License information will be added before the first public release.
+This project is licensed under the **MIT License**.
