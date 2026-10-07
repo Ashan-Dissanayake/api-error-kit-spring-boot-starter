@@ -10,7 +10,7 @@
 	</parent>
     <groupId>io.github.ashan-dissanayake</groupId>
     <artifactId>api-error-kit-spring-boot-starter</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <name>ApiErrorKit</name>
     <description>A lightweight Spring Boot library for converting custom exceptions into standardized RFC 9457 API error responses.</description>
     <url>https://github.com/Ashan-Dissanayake/api-error-kit-spring-boot-starter</url>
@@ -68,11 +68,6 @@
 
     <build>
         <plugins>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
